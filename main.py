@@ -111,106 +111,119 @@ def draw_grid(width, hight, playField, square_len):
 
 draw_grid(width, hight, playField, square_len)
 
-calculated_square = 0
-playField_new = playField.copy()
-full_grids = 0
-case = [0, 0, 0, 0]
-for squares_wd in range(width):
-    for squares_hg in range(hight):
+def calculate_new_field(playField1):
+    playField_new = playField1.copy()
+    full_grids = 0
+    case = [0, 0, 0, 0]
+    for squares_wd in range(width):
+        for squares_hg in range(hight):
 
-        if squares_wd == 0:
-            case[0] = 1
-        else:
-            case[0] = 0
+            if squares_wd == 0:
+                case[0] = 1
+            else:
+                case[0] = 0
 
-        if squares_wd == width - 1:
-            case[1] = 1
-        else:
-            case[1] = 0
+            if squares_wd == width - 1:
+                case[1] = 1
+            else:
+                case[1] = 0
 
-        if squares_hg == 0:
-            case[2] = 1
-        else:
-            case[2] = 0
+            if squares_hg == 0:
+                case[2] = 1
+            else:
+                case[2] = 0
 
-        if squares_hg == hight - 1:
-            case[3] = 1
-        else:
-            case[3] = 0
+            if squares_hg == hight - 1:
+                case[3] = 1
+            else:
+                case[3] = 0
 
-        print('Case = {}, Hight = {}, Width = {}'.format(case, squares_wd, squares_hg))
-        if case == [1, 0, 0, 0]:
-            full_grids = full_grids + playField[squares_wd, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd, squares_hg + 1]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg + 1]
+            print('Case = {}, Hight = {}, Width = {}'.format(case, squares_wd, squares_hg))
+            if case == [1, 0, 0, 0]:
+                full_grids = full_grids + playField1[squares_wd, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd, squares_hg + 1]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg + 1]
 
-        elif case == [1, 0, 1, 0]:
-            full_grids = full_grids + playField[squares_wd, squares_hg + 1]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg + 1]
+            elif case == [1, 0, 1, 0]:
+                full_grids = full_grids + playField1[squares_wd, squares_hg + 1]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg + 1]
 
-        elif case == [0, 1, 0, 0]:
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg]
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg + 1]
-            full_grids = full_grids + playField[squares_wd, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd, squares_hg + 1]
+            elif case == [0, 1, 0, 0]:
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg]
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg + 1]
+                full_grids = full_grids + playField1[squares_wd, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd, squares_hg + 1]
 
-        elif case == [0, 1, 1, 0]:
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg]
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg + 1]
-            full_grids = full_grids + playField[squares_wd, squares_hg + 1]
+            elif case == [0, 1, 1, 0]:
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg]
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg + 1]
+                full_grids = full_grids + playField1[squares_wd, squares_hg + 1]
 
-        elif case == [0, 1, 0, 1]:
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg]
-            full_grids = full_grids + playField[squares_wd, squares_hg - 1]
+            elif case == [0, 1, 0, 1]:
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg]
+                full_grids = full_grids + playField1[squares_wd, squares_hg - 1]
 
-        elif case == [0, 0, 1, 0]:
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg]
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg + 1]
-            full_grids = full_grids + playField[squares_wd, squares_hg + 1]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg + 1]
+            elif case == [0, 0, 1, 0]:
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg]
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg + 1]
+                full_grids = full_grids + playField1[squares_wd, squares_hg + 1]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg + 1]
 
-        elif case == [0, 0, 0, 1]:
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg]
-            full_grids = full_grids + playField[squares_wd, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg]
+            elif case == [0, 0, 0, 1]:
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg]
+                full_grids = full_grids + playField1[squares_wd, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg]
 
-        elif case == [1, 0, 0, 1]:
-            full_grids = full_grids + playField[squares_wd, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg]
+            elif case == [1, 0, 0, 1]:
+                full_grids = full_grids + playField1[squares_wd, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg]
 
-        else:
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg]
-            full_grids = full_grids + playField[squares_wd - 1, squares_hg + 1]
-            full_grids = full_grids + playField[squares_wd, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd, squares_hg + 1]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg - 1]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg]
-            full_grids = full_grids + playField[squares_wd + 1, squares_hg + 1]
+            else:
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg]
+                full_grids = full_grids + playField1[squares_wd - 1, squares_hg + 1]
+                full_grids = full_grids + playField1[squares_wd, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd, squares_hg + 1]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg - 1]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg]
+                full_grids = full_grids + playField1[squares_wd + 1, squares_hg + 1]
 
-        print('full_grids ={}, playField[squares_wd, squares_hg] = {}'.format(full_grids,
-                                                                              playField[squares_wd, squares_hg]))
-        if playField[squares_wd, squares_hg] == 1 and (full_grids == 2 or full_grids == 3):
-            playField_new[squares_wd, squares_hg] = 1
-            full_grids = 0
-        elif playField[squares_wd, squares_hg] == 0 and full_grids == 3:
-            playField_new[squares_wd, squares_hg] = 1
-            full_grids = 0
-        else:
-            playField_new[squares_wd, squares_hg] = 0
-            full_grids = 0
-        print('playField_new[squares_wd, squares_hg]: {}'.format(playField_new[squares_wd, squares_hg]))
+            print('full_grids ={}, playField[squares_wd, squares_hg] = {}'.format(full_grids,
+                                                                                  playField1[squares_wd, squares_hg]))
+            if playField1[squares_wd, squares_hg] == 1 and (full_grids == 2 or full_grids == 3):
+                playField_new[squares_wd, squares_hg] = 1
+                full_grids = 0
+            elif playField1[squares_wd, squares_hg] == 0 and full_grids == 3:
+                playField_new[squares_wd, squares_hg] = 1
+                full_grids = 0
+            else:
+                playField_new[squares_wd, squares_hg] = 0
+                full_grids = 0
 
+
+    return playField_new
+
+playField_new2 = calculate_new_field(playField)
 draw_grid(width, hight, playField, square_len)
-print('Playfield:\n', playField)
-print('Playfield_new:\n', playField_new)
+
+while True:
+    playField_new3 = playField_new2.copy()
+    print('Playfield_new2:\n', playField_new2)
+    playField_new2 = calculate_new_field(playField_new2)
+    print('Playfield_new3:\n', playField_new3)
+
+    if not playField_new2.any() or np.array_equiv(playField_new2,playField_new3):
+        break
+    draw_grid(width, hight, playField_new2, square_len)
+
+
 a = input('Press double Enter to close the program!')
