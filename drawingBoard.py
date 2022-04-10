@@ -2,32 +2,35 @@ import random as rd
 import turtle
 import numpy as np
 
-width = 4
-height = width
-#fieldSize = height * width
-
-playFieldWidth = np.array([])
-playField = np.array([])
-print(playField.size)
-
-for ht in range(height):
-    for wd in range(width):
-        playFieldWidth = np.append(playFieldWidth, [1 if rd.random() > 0.5 else 0])
-    if playField.size == 0:
-        playField = playFieldWidth
-    else:
-        playField = np.vstack([playField, playFieldWidth])
-    playFieldWidth = np.array([])
-
+global t
 square_len = 50
-t = turtle.Turtle()
-t.hideturtle()
-t.penup()
-t.goto(-square_len * height / 2, square_len * width / 2)
-t.pendown()
-t.speed('fastest')
 currentPositionHorizontal = 0
 currentPositionVertical = 0
+def init_draw(height,width):
+    global t, square_len
+    square_len = 50
+    t = turtle.Turtle()
+    t.hideturtle()
+    t.speed('fastest')
+    playFieldWidth = np.array([])
+    playField = np.array([])
+    print(playField.size)
+
+    for ht in range(height):
+        for wd in range(width):
+            playFieldWidth = np.append(playFieldWidth, [1 if rd.random() > 0.5 else 0])
+        if playField.size == 0:
+            playField = playFieldWidth
+        else:
+            playField = np.vstack([playField, playFieldWidth])
+        playFieldWidth = np.array([])
+
+    t.penup()
+    t.goto(-square_len * height / 2, square_len * width / 2)
+    t.pendown()
+    return(playField)
+
+
 
 
 def draw_square(squareLength):
@@ -69,10 +72,9 @@ def move_up(squareLength):
 def move_to_start(squareLength):
     global currentPositionVertical
     global currentPositionHorizontal
-    print('While in move to start begin! currentPositionVertical ={}, currentPositionHorizontal = {}'.format(
-        currentPositionVertical, currentPositionHorizontal))
+
     while currentPositionVertical != 0 or currentPositionHorizontal != 0:
-        print('While in move to start begin!')
+
         if currentPositionVertical > 0:
             move_down(squareLength)
         elif currentPositionVertical < 0:

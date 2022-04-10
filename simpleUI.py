@@ -1,80 +1,102 @@
-from threading import Thread
 import PySimpleGUI as sg
 import time
-import os.path
-
-counting = '0'
 
 
-def start_timer():
-    for i in range(5):
-        counting = '{} left until default paraemters will start'.format(5 - i)
-        time.sleep(1)
+def creating_UI():
+    file_list_column = [
 
-
-
-
-file_list_column = [
-
-    [
-        sg.Text("Woud you like to choose basic paraemters of the game? (Y/N)"),
-
-    ],
-
-    [
-        sg.Text(counting)
-    ],
-
-]
-
-image_viewer_column = [
-
-    [sg.InputText(size=(5, 1), key="-ANSWER-")],
-
-]
-
-user_confirmation = [
-    [sg.Button("OK")],
-]
-
-# ----- Full layout -----
-
-layout = [
-
-    [
-
-        sg.Column(file_list_column),
-
-        sg.Column(image_viewer_column),
-
-        sg.Column(user_confirmation)
+        [sg.Text("Would you like to choose basic parameters of the game? (Y/N)")],
+        [sg.Text("Is it square? (Y/N)", visible=False, key='-TEXT SQUARE-')],
+        [sg.Text("What is the square width? (3-7)", visible=False, key='-TEXT WIDTH SQ-')],
+        [sg.Text("What is the rectangle width? (3-7)", visible=False, key='-TEXT WIDTH RT-')],
+        [sg.Text("What is the rectangle height? (3-7)", visible=False, key='-TEXT HEIGHT RT-')],
 
     ]
 
-]
+    user_answer = [
 
-window = sg.Window("Image Viewer", layout)
+        [sg.InputText(size=(2, 2), key="-MAIN ANSWER-")],
+        [sg.InputText(size=(2, 2), visible=False, key="-SQUARE ANSWER-")],
+        [sg.InputText(size=(5, 2), visible=False, key="-WIDTH SQ ANSWER-")],
+        [sg.InputText(size=(5, 2), visible=False, key="-WIDTH RT ANSWER-")],
+        [sg.InputText(size=(5, 2), visible=False, key="-HEIGHT RT ANSWER-")],
 
-# Run the Event Loop
+    ]
 
-while True:
+    user_confirmation = [
+        [sg.Button("OK", key='-BUTTON-')],
+        [sg.Button("OK", visible=False, key='-BUTTON SQ-')],
+        [],
+        [],
+        [sg.Button("OK", visible=False, key='-BUTTON RT-')],
+    ]
 
-    event, values = window.read()
+    # ----- Full layout -----
 
-    if event == "Exit" or event == sg.WIN_CLOSED:
-        break
+    layout = [
 
-    # Folder name was filled in, make a list of files in the folder
+        [
+            sg.Column(file_list_column),
+            sg.Column(user_answer),
+            sg.Column(user_confirmation)
+        ]
 
-window.close()
+    ]
 
-threadlist = []
+    window = sg.Window("Conway\'s Game", layout)
 
-threadlist.append(Thread(target=user_answer))
-threadlist.append(Thread(target=start_timer))
+    tic = time.time()
+    default = True
+    while True:
 
-for t in threadlist:
-    t.start()
+        event, values = window.read(timeout=10)
+        toc = time.time()
 
-for t in threadlist:
-    t.join()
+        if toc - tic >= 5 and default:
+            default = True
+            print('Default parameters was loaded...')
+            break
+
+        if event == "-BUTTON-":
+            print('Button readed!', str(window['-MAIN ANSWER-'].get()))
+            if str(window['-MAIN ANSWER-'].get()) == 'Y' or 'y':
+                default = False
+                window['-TEXT SQUARE-'].update(visible=True)
+                window['-SQUARE ANSWER-'].update(visible=True)
+                window['-BUTTON SQ-'].update(visible=True)
+                window["-BUTTON-"].update(visible=False)
+
+        if event == '-BUTTON SQ-':
+            if str(window["-SQUARE ANSWER-"].get()) == 'Y' or 'y':
+                window['-TEXT WIDTH SQ-'].update(visible=True)
+                window['-WIDTH SQ ANSWER-'].update(visible=True)
+                window['-BUTTON RT-'].update(visible=True)
+                window['-BUTTON SQ-'].update(visible=False)
+            elif str(window["-SQUARE ANSWER-"].get()) == 'N' or 'n':
+                window['-TEXT WIDTH RT-'].update(visible=True)
+                window['-TEXT HEIGHT RT-'].update(visible=True)
+                window["-WIDTH RT ANSWER-"].update(visible=True)
+                window["-HEIGHT RT ANSWER-"].update(visible=True)
+                window['-BUTTON RT-'].update(visible=True)
+                window['-BUTTON SQ-'].update(visible=False)
+
+        if event == '-BUTTON RT-':
+            print('BUTTON SQ ANSWER:', window["-WIDTH SQ ANSWER-"].get())
+            if 2 < int(window["-WIDTH SQ ANSWER-"].get()) < 8:
+                width = int(window['-WIDTH SQ ANSWER-'].get())
+                height = width
+                break
+            elif 2 < int(window["-WIDTH RT ANSWER-"].get()) < 8 and 2 < int(window["-HEIGHT RT ANSWER-"].get()) < 8:
+                width = window['-WIDTH RT ANSWER-'].get()
+                height = window['-HEIGHT RT ANSWER-'].get()
+                break
+
+        if event == "Exit" or event == sg.WIN_CLOSED:
+            break
+
+    if default:
+        width = 4
+        height = width
+
+    window.close()
+    return width, height

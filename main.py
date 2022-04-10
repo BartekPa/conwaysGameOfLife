@@ -1,29 +1,10 @@
 from drawingBoard import *
 from gameLogic import *
-import time
-from multiprocessing import Process
-
-def user_answer():
-    input('Woud you like to use default parameters?')
-
-def start_timer():
-    for i in range(5):
-        print("{}\n", i)
-    time.sleep(1)
+from simpleUI import *
 
 
-processlist = []
-
-processlist.append(Process(target=user_answer))
-processlist.append(Process(target=start_timer))
-
-
-
-for t in processlist:
-    t.start()
-
-'''
-'''
+[width, height] = creating_UI()
+playField = init_draw(height, width)
 draw_grid(width, height, playField, square_len)
 
 while True:
