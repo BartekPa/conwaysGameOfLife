@@ -9,7 +9,6 @@ def creating_UI():
     temp = 1
 
     file_list_column = [
-
         [sg.Text("Would you like to choose basic parameters of the game? (Y/N)")],
         [sg.Text("Is it square? (Y/N)", visible=False, key='-TEXT SQUARE-')],
         [sg.Text("What is the square width? (3-7)", visible=False, key='-TEXT WIDTH SQ-')],
@@ -17,6 +16,7 @@ def creating_UI():
         [sg.Text("What is the rectangle height? (3-7)", visible=False, key='-TEXT HEIGHT RT-')],
         [sg.Text("The default parameters will be loaded in {:d} seconds".format(default_time),
                  key='-TEXT TIME TO DEFAULT-'), ],
+
 
     ]
 
@@ -26,7 +26,7 @@ def creating_UI():
         [sg.InputText(size=(5, 2), visible=False, key="-WIDTH SQ ANSWER-")],
         [sg.InputText(size=(5, 2), visible=False, key="-WIDTH RT ANSWER-")],
         [sg.InputText(size=(5, 2), visible=False, key="-HEIGHT RT ANSWER-")],
-        [],
+
     ]
 
     user_confirmation = [
@@ -50,7 +50,7 @@ def creating_UI():
 
     ]
 
-    window = sg.Window("Conway\'s Game", layout)
+    window = sg.Window("Conway\'s Game", layout, size=(600,200), text_justification = 'r')
 
     tic = time.time()
     default = True
@@ -73,7 +73,8 @@ def creating_UI():
             print('Button readed!', str(window['-MAIN ANSWER-'].get()))
             if str(window['-MAIN ANSWER-'].get()) == ('Y' or 'y'):
                 default = False
-                window['-TEXT TIME TO DEFAULT-'].update('User configuration!')
+                #window['-TEXT TIME TO DEFAULT-'].update('User configuration!')
+                window['-TEXT TIME TO DEFAULT-'].update(visible=False)
                 window['-TEXT SQUARE-'].update(visible=True)
                 window['-SQUARE ANSWER-'].update(visible=True)
                 window['-BUTTON SQ-'].update(visible=True)
@@ -127,7 +128,7 @@ def creating_UI():
 
 
         if event == "Exit" or event == sg.WIN_CLOSED:
-            break
+            exit()
 
     if default:
         width = 4
