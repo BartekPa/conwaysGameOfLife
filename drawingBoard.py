@@ -2,18 +2,16 @@ import random as rd
 import turtle
 import numpy as np
 
-global t
-square_len = 50
+global t, square_len
+square_len= 50
 currentPositionHorizontal = 0
 currentPositionVertical = 0
 
 def init_draw(height,width):
     global t, square_len
-    square_len = 50
 
     playFieldWidth = np.array([])
     playField = np.array([])
-    print(playField.size)
 
     for ht in range(width):
         for wd in range(height):
@@ -28,9 +26,8 @@ def init_draw(height,width):
     t.hideturtle()
     t.speed('fastest')
     t.penup()
-    t.goto(-square_len * height / 2, square_len * width / 2)
+    t.goto(-square_len * width / 2, square_len * height / 2)
     t.pendown()
-    print('playfield size', playField.shape)
     return(playField)
 
 
@@ -111,5 +108,4 @@ def draw_grid(width, height, playField, square_len):
             move_left(square_len)
 
     move_to_start(square_len)
-    print('Moved to start!')
 

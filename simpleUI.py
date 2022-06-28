@@ -17,7 +17,6 @@ def creating_UI():
         [sg.Text("The default parameters will be loaded in {:d} seconds".format(default_time),
                  key='-TEXT TIME TO DEFAULT-'), ],
 
-
     ]
 
     user_answer = [
@@ -26,15 +25,15 @@ def creating_UI():
         [sg.InputText(size=(5, 2), visible=False, key="-WIDTH SQ ANSWER-")],
         [sg.InputText(size=(5, 2), visible=False, key="-WIDTH RT ANSWER-")],
         [sg.InputText(size=(5, 2), visible=False, key="-HEIGHT RT ANSWER-")],
+        [],
 
     ]
 
     user_confirmation = [
-        [sg.Button("OK", key='-BUTTON MAIN-')],
-        [sg.Button("OK", visible=False, key='-BUTTON SQ-')],
+        [sg.Button("Confirm", key='-BUTTON MAIN-')],
+        [sg.Button("Confirm", visible=False, key='-BUTTON SQ-')],
+        [sg.Button("Confirm", visible=False, key='-BUTTON SIZE-')],
         [],
-        [],
-        [sg.Button("OK", visible=False, key='-BUTTON SIZE-')],
 
     ]
 
@@ -42,15 +41,10 @@ def creating_UI():
 
     layout = [
 
-        [
-            sg.Column(file_list_column),
-            sg.Column(user_answer),
-            sg.Column(user_confirmation)
-        ]
+        [sg.Column(file_list_column), sg.Column(user_answer), sg.Column(user_confirmation)]
 
     ]
-
-    window = sg.Window("Conway\'s Game", layout, size=(600,200), text_justification = 'r')
+    window = sg.Window("Conway\'s Game", layout, size=(600, 200), text_justification='r')
 
     tic = time.time()
     default = True
@@ -73,7 +67,7 @@ def creating_UI():
             print('Button readed!', str(window['-MAIN ANSWER-'].get()))
             if str(window['-MAIN ANSWER-'].get()) == ('Y' or 'y'):
                 default = False
-                #window['-TEXT TIME TO DEFAULT-'].update('User configuration!')
+                # window['-TEXT TIME TO DEFAULT-'].update('User configuration!')
                 window['-TEXT TIME TO DEFAULT-'].update(visible=False)
                 window['-TEXT SQUARE-'].update(visible=True)
                 window['-SQUARE ANSWER-'].update(visible=True)
@@ -116,7 +110,9 @@ def creating_UI():
                 width = int(window['-WIDTH SQ ANSWER-'].get())
                 height = width
                 break
-            elif int(window["-WIDTH RT ANSWER-"].get().isdigit() and window["-HEIGHT RT ANSWER-"].get().isdigit()) and 2 < int(window["-WIDTH RT ANSWER-"].get()) < 8 and 2 < int(window["-HEIGHT RT ANSWER-"].get()) < 8:
+            elif int(window["-WIDTH RT ANSWER-"].get().isdigit() and window[
+                "-HEIGHT RT ANSWER-"].get().isdigit()) and 2 < int(window["-WIDTH RT ANSWER-"].get()) < 8 and 2 < int(
+                    window["-HEIGHT RT ANSWER-"].get()) < 8:
                 width = int(window['-WIDTH RT ANSWER-'].get())
                 height = int(window['-HEIGHT RT ANSWER-'].get())
                 break
@@ -125,7 +121,6 @@ def creating_UI():
                 window['-WIDTH RT ANSWER-'].update('')
                 window['-HEIGHT RT ANSWER-'].update('')
                 window['-WIDTH SQ ANSWER-'].update('')
-
 
         if event == "Exit" or event == sg.WIN_CLOSED:
             exit()
@@ -136,3 +131,5 @@ def creating_UI():
 
     window.close()
     return width, height
+
+

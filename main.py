@@ -18,4 +18,7 @@ while True:
     draw_grid(width, height, playField_new, square_len)
     playField = playField_new.copy()
 
-a = input('Press double Enter to close the program!')
+
+sg.Popup('Program is over! Repeated or blank field!')
+time.sleep(2)
+
