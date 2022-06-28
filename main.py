@@ -9,7 +9,7 @@ draw_grid(width, height, playField, square_len)
 
 while True:
 
-    playField_new = calculate_new_field(playField, height, width)
+    playField_new = calculate_new_field(playField, width, height)
 
     if np.array_equiv(playField, playField_new):
         print("Comparing Done! The same arrays!")

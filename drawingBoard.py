@@ -6,18 +6,17 @@ global t
 square_len = 50
 currentPositionHorizontal = 0
 currentPositionVertical = 0
+
 def init_draw(height,width):
     global t, square_len
     square_len = 50
-    t = turtle.Turtle()
-    t.hideturtle()
-    t.speed('fastest')
+
     playFieldWidth = np.array([])
     playField = np.array([])
     print(playField.size)
 
-    for ht in range(height):
-        for wd in range(width):
+    for ht in range(width):
+        for wd in range(height):
             playFieldWidth = np.append(playFieldWidth, [1 if rd.random() > 0.5 else 0])
         if playField.size == 0:
             playField = playFieldWidth
@@ -25,9 +24,13 @@ def init_draw(height,width):
             playField = np.vstack([playField, playFieldWidth])
         playFieldWidth = np.array([])
 
+    t = turtle.Turtle()
+    t.hideturtle()
+    t.speed('fastest')
     t.penup()
     t.goto(-square_len * height / 2, square_len * width / 2)
     t.pendown()
+    print('playfield size', playField.shape)
     return(playField)
 
 
@@ -86,10 +89,13 @@ def move_to_start(squareLength):
             move_right(squareLength)
 
 
-def draw_grid(width, hight, playField, square_len):
+def draw_grid(width, height, playField, square_len):
     t.clear()
-    for squares_wd in range(width):
-        for squares_hg in range(hight):
+    print('Draw_grid parameters:', width, height)
+    for squares_hg in range(height):
+        print('squares_hg: ', squares_hg)
+        for squares_wd in range(width):
+            print('squares_wd: ',squares_wd)
             if playField[squares_wd, squares_hg] == 1:
                 t.begin_fill()
                 t.fillcolor('black')
@@ -105,4 +111,5 @@ def draw_grid(width, hight, playField, square_len):
             move_left(square_len)
 
     move_to_start(square_len)
+    print('Moved to start!')
 
